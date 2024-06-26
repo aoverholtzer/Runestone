@@ -4,16 +4,22 @@ final class TreeSitterSyntaxHighlightToken {
     let range: NSRange
     let textColor: UIColor?
     let shadow: NSShadow?
+    let strikethroughStyle: NSUnderlineStyle?
+    let underlineStyle: NSUnderlineStyle?
+    let underlineColor: UIColor?
     let font: UIFont?
     let fontTraits: FontTraits
     var isEmpty: Bool {
-        range.length == 0 || (textColor == nil && font == nil && shadow == nil)
+        range.length == 0 || (textColor == nil && font == nil && shadow == nil && strikethroughStyle == nil && underlineStyle == nil)
     }
-
-    init(range: NSRange, textColor: UIColor?, shadow: NSShadow?, font: UIFont?, fontTraits: FontTraits) {
+    
+    init(range: NSRange, textColor: UIColor?, shadow: NSShadow?, strikethroughStyle: NSUnderlineStyle?, underlineStyle: NSUnderlineStyle?, underlineColor: UIColor?, font: UIFont?, fontTraits: FontTraits) {
         self.range = range
         self.textColor = textColor
         self.shadow = shadow
+        self.strikethroughStyle = strikethroughStyle
+        self.underlineColor = underlineColor
+        self.underlineStyle = underlineStyle
         self.font = font
         self.fontTraits = fontTraits
     }

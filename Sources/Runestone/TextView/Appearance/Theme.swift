@@ -51,6 +51,10 @@ public protocol Theme: AnyObject {
     ///
     /// See <doc:CreatingATheme> for more information on higlight names.
     func shadow(for highlightName: String) -> NSShadow?
+    
+    func strikethroughStyle(for highlightName: String) -> NSUnderlineStyle?
+    func underlineStyle(for highlightName: String) -> (style: NSUnderlineStyle?, color: UIColor?)
+    
     /// Highlighted range for a text range matching a search query.
     ///
     /// This function is called when highlighting a search result that was found using the standard find/replace interaction enabled using <doc:TextView/isFindInteractionEnabled>.
@@ -87,6 +91,14 @@ public extension Theme {
 
     func shadow(for highlightName: String) -> NSShadow? {
         nil
+    }
+    
+    func strikethroughStyle(for highlightName: String) -> NSUnderlineStyle? {
+        nil
+    }
+    
+    func underlineStyle(for highlightName: String) -> (style: NSUnderlineStyle?, color: UIColor?) {
+        (nil, nil)
     }
 
     @available(iOS 16, *)
