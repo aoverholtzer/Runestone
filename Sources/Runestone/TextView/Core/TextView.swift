@@ -222,6 +222,10 @@ open class TextView: UIScrollView {
     override public var canBecomeFirstResponder: Bool {
         !textInputView.isFirstResponder && isEditable
     }
+    /// Returns a Boolean value indicating whether this object is the first responder.
+    override public var isFirstResponder: Bool {
+        textInputView.isFirstResponder
+    }
     /// The text view's background color.
     override public var backgroundColor: UIColor? {
         get {
