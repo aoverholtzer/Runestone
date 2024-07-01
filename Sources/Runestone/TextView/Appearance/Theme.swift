@@ -54,8 +54,7 @@ public protocol Theme: AnyObject {
     /// See <doc:CreatingATheme> for more information on higlight names.
     func shadow(for highlightName: String) -> NSShadow?
     
-    func strikethroughStyle(for highlightName: String) -> NSUnderlineStyle?
-    func underlineStyle(for highlightName: String) -> (style: NSUnderlineStyle?, color: UIColor?)
+    func otherAttributes(for highlightName: String) -> [TreeSitterSyntaxHighlightTokenAttribute]?
     
     /// Highlighted range for a text range matching a search query.
     ///
@@ -95,12 +94,8 @@ public extension Theme {
         nil
     }
     
-    func strikethroughStyle(for highlightName: String) -> NSUnderlineStyle? {
-        nil
-    }
-    
-    func underlineStyle(for highlightName: String) -> (style: NSUnderlineStyle?, color: UIColor?) {
-        (nil, nil)
+    func otherAttributes(for highlightName: String) -> [TreeSitterSyntaxHighlightTokenAttribute]? {
+        return nil
     }
 
     @available(iOS 16, *)

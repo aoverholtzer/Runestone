@@ -115,15 +115,9 @@ private extension TreeSitterSyntaxHighlighter {
             if token.fontTraits.contains(.italic) {
                 attributedString.addAttribute(.isItalic, value: true, range: token.range)
             }
-            if let underlineStyle = token.underlineStyle {
-                attributes[.underlineStyle] = underlineStyle.rawValue
-                
-                if let underlineColor = token.underlineColor {
-                    attributes[.underlineColor] = underlineColor
-                }
-            }
-            if let strikethroughStyle = token.strikethroughStyle {
-                attributes[.strikethroughStyle] = strikethroughStyle.rawValue
+            for attribute in token.otherAttributes {
+                let range = attribute.subrange(for: token.range)
+                attributedString.addAttributes(attribute.dictionary, range: range)
             }
             var symbolicTraits: UIFontDescriptor.SymbolicTraits = []
             if let isBold = attributedString.attribute(.isBold, at: token.range.location, effectiveRange: nil) as? Bool, isBold {
@@ -176,11 +170,10 @@ private extension TreeSitterSyntaxHighlighter {
         let range = NSRange(byteRange)
         let textColor = theme.textColor(for: capture.name)
         let shadow = theme.shadow(for: capture.name)
-        let strikethroughStyle = theme.strikethroughStyle(for: capture.name)
-        let underline = theme.underlineStyle(for: capture.name)
+        let otherAttributes = theme.otherAttributes(for: capture.name) ?? []
         let font = theme.font(for: capture.name)
         let fontTraits = theme.fontTraits(for: capture.name)
-        return TreeSitterSyntaxHighlightToken(range: range, textColor: textColor, shadow: shadow, strikethroughStyle: strikethroughStyle, underlineStyle: underline.style, underlineColor: underline.color, font: font, fontTraits: fontTraits)
+        return TreeSitterSyntaxHighlightToken(range: range, textColor: textColor, shadow: shadow, font: font, fontTraits: fontTraits, other: otherAttributes)
     }
 }
 
