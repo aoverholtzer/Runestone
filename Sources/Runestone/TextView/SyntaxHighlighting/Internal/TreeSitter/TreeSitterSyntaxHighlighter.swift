@@ -55,14 +55,12 @@ final class TreeSitterSyntaxHighlighter: LineSyntaxHighlighter {
             }
             let captures = self.languageMode.captures(in: input.byteRange)
             if !operation.isCancelled {
-                if !operation.isCancelled {
-                    let tokens = self.tokens(for: captures, localTo: input.byteRange)
-                    self.setAttributes(for: tokens, on: input.attributedString)
-                    DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    if !operation.isCancelled {
+                        let tokens = self.tokens(for: captures, localTo: input.byteRange)
+                        self.setAttributes(for: tokens, on: input.attributedString)
                         completion(.success(()))
-                    }
-                } else {
-                    DispatchQueue.main.async {
+                    } else {
                         completion(.failure(TreeSitterSyntaxHighlighterError.cancelled))
                     }
                 }
