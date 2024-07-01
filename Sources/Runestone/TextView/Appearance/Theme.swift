@@ -35,6 +35,8 @@ public protocol Theme: AnyObject {
     /// Corner radius of the background of marked text. Text will be marked when writing certain languages, for example Chinese and Japanese.
     /// A value of zero or less means that the background will not have rounded corners. Defaults to 0.
     var markedTextBackgroundCornerRadius: CGFloat { get }
+    /// Attributes for misspelled text within capture sequence.
+    var misspelledTextAttributes: [NSAttributedString.Key: Any] { get }
     /// Color of text matching the capture sequence.
     ///
     /// See <doc:CreatingATheme> for more information on higlight names.

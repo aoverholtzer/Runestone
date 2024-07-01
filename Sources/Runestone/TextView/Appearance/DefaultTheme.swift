@@ -17,6 +17,7 @@ public final class DefaultTheme: Runestone.Theme {
     public let pageGuideBackgroundColor = UIColor(themeColorNamed: "page_guide_background")
     public let markedTextBackgroundColor = UIColor(themeColorNamed: "marked_text")
     public let selectionColor = UIColor(themeColorNamed: "selection")
+    public let misspelledTextAttributes: [NSAttributedString.Key : Any] = [:]
 
     public init() {}
 

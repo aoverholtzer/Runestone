@@ -55,12 +55,14 @@ final class TreeSitterSyntaxHighlighter: LineSyntaxHighlighter {
             }
             let captures = self.languageMode.captures(in: input.byteRange)
             if !operation.isCancelled {
-                DispatchQueue.main.async {
-                    if !operation.isCancelled {
-                        let tokens = self.tokens(for: captures, localTo: input.byteRange)
-                        self.setAttributes(for: tokens, on: input.attributedString)
+                if !operation.isCancelled {
+                    let tokens = self.tokens(for: captures, localTo: input.byteRange)
+                    self.setAttributes(for: tokens, on: input.attributedString)
+                    DispatchQueue.main.async {
                         completion(.success(()))
-                    } else {
+                    }
+                } else {
+                    DispatchQueue.main.async {
                         completion(.failure(TreeSitterSyntaxHighlighterError.cancelled))
                     }
                 }
@@ -81,8 +83,24 @@ final class TreeSitterSyntaxHighlighter: LineSyntaxHighlighter {
 }
 
 private extension TreeSitterSyntaxHighlighter {
+    private static let spellChecker = UITextChecker()
+    
     private func setAttributes(for tokens: [TreeSitterSyntaxHighlightToken], on attributedString: NSMutableAttributedString) {
         attributedString.beginEditing()
+        
+        if !theme.misspelledTextAttributes.isEmpty, let language = UITextChecker.availableLanguages.first { // todo: check if spell check actually enabled
+            var index = 0
+            while index >= 0 && index < attributedString.string.utf16.count {
+                let range = Self.spellChecker.rangeOfMisspelledWord(in: attributedString.string,
+                                                                    range: NSRange(location: 0, length: attributedString.string.utf16.count),
+                                                                    startingAt: index, wrap: false, language: language)
+                if range.location != NSNotFound {
+                    attributedString.addAttributes(theme.misspelledTextAttributes, range: range)
+                }
+                index = range.location + range.length
+            }
+        }
+        
         for token in tokens {
             var attributes: [NSAttributedString.Key: Any] = [:]
             if let foregroundColor = token.textColor {
