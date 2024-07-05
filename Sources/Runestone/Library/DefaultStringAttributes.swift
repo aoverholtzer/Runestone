@@ -17,7 +17,7 @@ struct DefaultStringAttributes {
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: textColor,
             .font: font,
-            .kern: kern as NSNumber,
+//            .kern: kern as NSNumber,
             .paragraphStyle: paragraphStyle
         ]
         attributedString.beginEditing()
